@@ -135,10 +135,12 @@ public class RsUI extends BasicSliderUI {
 				if (mouse_x < track_max && mouse_x > track_min && mouse_x > thumbRect.x){
 					slider.setValueIsAdjusting(true);
 					setMaxThumbPosition(max_thumb.x+diff, max_thumb.y);
-					slider.setExtent(xPositionForValue(slider.getMaximum() -
+					slider.setExtent(xPositionForValue(slider.getValue())-slider.getValue());
+					System.out.println("coucou : " + xPositionForValue( slider.getValue() +
                             slider.getExtent()));
-					slider.setExtent(max_thumb.x);
-					System.out.println("nouvelle valeur max : " + (slider.getValue() + slider.getExtent()));
+					((RsCore)slider).setMaxValue(xPositionForValue( slider.getValue() +
+                            slider.getExtent()));
+					System.out.println("nouvelle valeur max : " + (((RsCore)slider).getMaxValue()));
 				}
 			}
 			if (drag_min){

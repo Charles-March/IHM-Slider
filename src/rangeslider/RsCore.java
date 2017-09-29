@@ -39,6 +39,7 @@ public class RsCore extends JSlider {
 	
 	public void setMaxValue(int value){
 		 if (!(this.getValue() < value)){
+			 System.out.println("salut charles.");
 			 setExtent(value-getValue());
 		 }
 	}
