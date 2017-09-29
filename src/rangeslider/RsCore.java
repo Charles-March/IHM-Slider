@@ -17,8 +17,8 @@ public class RsCore extends JSlider {
 	 * @param max_value
 	 */
 	public RsCore(int min_value, int max_value){
-		this.min_value = min_value;
-		this.max_value = max_value;
+		this.setMaximum(min_value);
+		this.setMaximum(max_value);
 		this.setOrientation(HORIZONTAL);
 	}
 	
