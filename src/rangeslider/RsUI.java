@@ -133,14 +133,41 @@ public class RsUI extends BasicSliderUI {
 			if (drag_max){
 				int diff = mouse_x - max_thumb.x;
 				if (mouse_x < track_max && mouse_x > track_min && mouse_x > thumbRect.x){
-					slider.setValueIsAdjusting(true);
-					setMaxThumbPosition(max_thumb.x+diff, max_thumb.y);
-					slider.setExtent(xPositionForValue(slider.getValue())-slider.getValue());
-					System.out.println("coucou : " + xPositionForValue( slider.getValue() +
-                            slider.getExtent()));
-					((RsCore)slider).setMaxValue(xPositionForValue( slider.getValue() +
-                            slider.getExtent()));
-					System.out.println("nouvelle valeur max : " + (((RsCore)slider).getMaxValue()));
+//					slider.setValueIsAdjusting(true);
+//					setMaxThumbPosition(max_thumb.x+diff, max_thumb.y);
+//					System.out.println("qu'est ce que ça vaut? : " + (xPositionForValue(diff-slider.getValue())));
+//					slider.setExtent(xPositionForValue(diff-slider.getValue()));
+//					System.out.println("extent :: " + slider.getExtent());
+					
+					/***
+					 * BEGIN
+					 */
+					
+					int halfThumbWidth = thumbRect.width / 2;
+	                int thumbLeft = currentMouseX - offset;
+	                int trackLeft = trackRect.x;
+	                int trackRight = trackRect.x + (trackRect.width - 1);
+	                int hMin = xPositionForValue(slider.getValue());
+
+	                // Apply bounds to thumb position.
+	                if (drawInverted()) {
+	                    trackRight = hMin;
+	                } else {
+	                    trackLeft = hMin;
+	                }
+	                thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
+	                thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+
+	                setMaxThumbPosition(thumbLeft, thumbRect.y);
+	                
+	                // Update slider extent.
+	                int thumbMiddle = thumbLeft + halfThumbWidth;
+	                slider.setExtent(valueForXPosition(thumbMiddle) - slider.getValue());
+					
+					/***
+					 * END
+					 */
+					
 				}
 			}
 			if (drag_min){
