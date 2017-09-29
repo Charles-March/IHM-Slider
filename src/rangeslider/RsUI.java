@@ -131,52 +131,33 @@ public class RsUI extends BasicSliderUI {
 			int track_min = trackRect.x - 1*max_thumb.width;
 			
 			if (drag_max){
-				int diff = mouse_x - max_thumb.x;
 				if (mouse_x < track_max && mouse_x > track_min && mouse_x > thumbRect.x){
-//					slider.setValueIsAdjusting(true);
-//					setMaxThumbPosition(max_thumb.x+diff, max_thumb.y);
-//					System.out.println("qu'est ce que ça vaut? : " + (xPositionForValue(diff-slider.getValue())));
-//					slider.setExtent(xPositionForValue(diff-slider.getValue()));
-//					System.out.println("extent :: " + slider.getExtent());
-					
-					/***
-					 * BEGIN
-					 */
-					
-					int halfThumbWidth = thumbRect.width / 2;
-	                int thumbLeft = currentMouseX - offset;
+					slider.setValueIsAdjusting(true);
+	                int thumbLeft = mouse_x - offset;
 	                int trackLeft = trackRect.x;
 	                int trackRight = trackRect.x + (trackRect.width - 1);
-	                int hMin = xPositionForValue(slider.getValue());
-
-	                // Apply bounds to thumb position.
-	                if (drawInverted()) {
-	                    trackRight = hMin;
-	                } else {
-	                    trackLeft = hMin;
-	                }
-	                thumbLeft = Math.max(thumbLeft, trackLeft - halfThumbWidth);
-	                thumbLeft = Math.min(thumbLeft, trackRight - halfThumbWidth);
+	                thumbLeft = Math.max(thumbLeft, trackLeft);
+	                thumbLeft = Math.min(thumbLeft, trackRight);
 
 	                setMaxThumbPosition(thumbLeft, thumbRect.y);
-	                
-	                // Update slider extent.
-	                int thumbMiddle = thumbLeft + halfThumbWidth;
+	                int thumbMiddle = thumbLeft;
 	                slider.setExtent(valueForXPosition(thumbMiddle) - slider.getValue());
-					
-					/***
-					 * END
-					 */
 					
 				}
 			}
 			if (drag_min){
-				System.out.println("valeur max du slider : " + slider.getMaximum());
-				int diff = mouse_x - thumbRect.x;
+				System.out.println("valeur min du slider : " + slider.getValue());
 				if (mouse_x < track_max && mouse_x > track_min && mouse_x < max_thumb.x){
 					slider.setValueIsAdjusting(true);
-					setThumbLocation(thumbRect.x+diff, thumbRect.y);
-					System.out.println("nouvelle valeur min : " + (slider.getValue() ));
+	                int thumbLeft = mouse_x - offset;
+	                int trackLeft = trackRect.x;
+	                int trackRight = trackRect.x + (trackRect.width - 1);
+	                thumbLeft = Math.max(thumbLeft, trackLeft);
+	                thumbLeft = Math.min(thumbLeft, trackRight);
+
+	                setThumbLocation(thumbLeft, thumbRect.y);
+	                int thumbMiddle = thumbLeft;
+	                slider.setValue(valueForXPosition(thumbMiddle));
 				}
 			}
 		}
